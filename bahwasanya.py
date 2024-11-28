@@ -236,4 +236,3 @@ def main():
 main()
 
 
-saya menambahkan tulisan disini
