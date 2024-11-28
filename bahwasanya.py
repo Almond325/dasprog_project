@@ -234,3 +234,6 @@ def main():
                 print("Pilihan tidak valid. Silakan jawab 'ya' atau 'tidak'.")
                 
 main()
+
+
+saya menambahkan tulisan disini
