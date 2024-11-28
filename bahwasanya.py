@@ -169,32 +169,33 @@ def promo(total):
 
 def simpan_ke_file(nama_file, pesan_makan, pesan_minum, total, diskon=0):
     with open(nama_file, 'a') as file:
-        # Generate invoice unik
+        file.write("=====================================================================================================================================================================================\n")
+        file.write("\n")
+        file.write("\n")
+        file.write("=====================================================================================================================================================================================\n")
         invoice_number = generate_invoice()
-        
         file.write("\n===================================================\n")
         file.write(f"Invoice: {invoice_number}\n")
         file.write("===================================================\n")
         file.write("                DETAIL PEMBELIAN                       \n")
         file.write("===================================================\n")
-        
-        # Detail Makanan
         file.write("MAKANAN:\n")
         for item in pesan_makan:
             file.write(f"- {item[0]} x{item[1]} = Rp. {item[2]}\n")
-        
-        # Detail Minuman
         file.write("\nMINUMAN:\n")
         for item in pesan_minum:
             file.write(f"- {item[0]} x{item[1]} = Rp. {item[2]}\n")
-        
-        # Total dan Informasi Tambahan
         file.write("\n===================================================\n")
         file.write(f"Total Sebelum Diskon : Rp. {total + diskon}\n")
         file.write(f"Diskon               : Rp. {diskon}\n")
         file.write(f"Total Akhir          : Rp. {total}\n")
         file.write(f"Waktu Transaksi      : {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         file.write("===================================================\n")
+        file.write("=====================================================================================================================================================================================\n")
+        file.write("\n")
+        file.write("\n")
+        file.write("=====================================================================================================================================================================================\n")
+
     
     print(f"Transaksi berhasil disimpan di {nama_file}")
 
