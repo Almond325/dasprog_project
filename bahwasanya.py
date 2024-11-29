@@ -1,6 +1,7 @@
 import os
 import datetime
 import random
+
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -12,14 +13,13 @@ def makanan():
     total_makan = 0
     pesan_makan = []
 
-
     while True:
-        print("-------------------------------------------------------------")
-        print("             : pilih menu makanan :          ")
-        print("-------------------------------------------------------------")
+        print("-------------------------------------------------")
+        print("             : Pilih Menu Makanan :              ")
+        print("-------------------------------------------------")
         print("1.  Nasi Goreng Kampung                Rp. 18.000")
         print("2.  Nasi Goreng Spesial                Rp. 20.000")
-        print("3.  Indomie Polos                      Rp. 8.000")
+        print("3.  Indomie Polos                      Rp. 8.000 ")
         print("4.  Indomie Telur                      Rp. 12.000")
         print("5.  Indomie Telur Kornet               Rp. 15.000")
         print("6.  Nasi Ayam Geprek                   Rp. 15.000")
@@ -33,7 +33,7 @@ def makanan():
         print("14. Pisang Bakar                       Rp. 12.000")
         print("15. Risol Mayo                         Rp. 15.000")
         print("0.  Untuk selesai memesan makanan                ")
-        print("-------------------------------------------------------------")
+        print("-------------------------------------------------")
         
         try:
             menu_makanan = int(input("Silahkan pilih menu, masukan angka 0 untuk selesai: "))
@@ -76,23 +76,22 @@ def makanan():
         except ValueError:
             print("Input tidak valid. Silakan masukkan angka yang benar.")
 
-
 def minuman():
     global total_minum, pesan_minum, jumlah_gelas
     total_minum = 0
     pesan_minum = []
 
     while True:
-        print("-------------------------------------------------------------")
-        print("             : pilih menu minuman :          ")
-        print("-------------------------------------------------------------")
-        print("1.  Es Teh Maniez                      Rp. 5.000")
-        print("2.  Lemon Tea                          Rp. 8.000")
+        print("-------------------------------------------------")
+        print("             : Pilih Menu Minuman :              ")
+        print("-------------------------------------------------")
+        print("1.  Es Teh Maniez                      Rp. 5.000 ")
+        print("2.  Lemon Tea                          Rp. 8.000 ")
         print("3.  Teh Tarik                          Rp. 10.000")
         print("4.  Bubble Milk Tea                    Rp. 15.000")
-        print("5.  Americano                          Rp. 8.000")
-        print("6.  Kopi Tubruk                        Rp. 8.000")
-        print("7.  Latte                              Rp. 15000")
+        print("5.  Americano                          Rp. 8.000 ")
+        print("6.  Kopi Tubruk                        Rp. 8.000 ")
+        print("7.  Latte                              Rp. 15000 ")
         print("8.  Cappucino                          Rp. 12.000")
         print("9.  Hot Chocolatte                     Rp. 10.000")
         print("10. Matcha                             Rp. 10.000")
@@ -100,9 +99,9 @@ def minuman():
         print("12. Jeruk Peras                        Rp. 10.000")
         print("13. Susu Jahe                          Rp. 10.000")
         print("14. Soda Gembira                       Rp. 12.000")
-        print("15. Air Mineral                        Rp. 5.000")
-        print("0.  Untuk selesai memesan minuman               ")
-        print("-------------------------------------------------------------")
+        print("15. Air Mineral                        Rp. 5.000 ")
+        print("0.  Untuk selesai memesan minuman                ")
+        print("-------------------------------------------------")
         
         try:
             menu_minuman = int(input("Silahkan pilih menu, masukan angka 0 untuk selesai: "))
@@ -146,7 +145,6 @@ def minuman():
         except ValueError:
             print("Input tidak valid. Silakan masukkan angka yang benar.")
 
-
 def promo(total):
     promo_codes = {
         "DISKON10": 0.10,  
@@ -166,39 +164,36 @@ def promo(total):
     
     return total
 
-
 def simpan_ke_file(nama_file, nama_user, nomor_antrian, pesan_makan, pesan_minum, total, diskon=0):
     with open(nama_file, 'a') as file:
-        file.write("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n")
         file.write("\n")
         file.write("\n")
         file.write("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n")
         invoice_number = generate_invoice()
-        file.write("\n===================================================\n")
+        file.write("\n")
+        file.write("\n=======================================================\n")
         file.write(f"Invoice: {invoice_number}\n")
-        file.write("===================================================\n")
-        file.write("                DETAIL PEMBELIAN                       \n")
-        file.write("===================================================\n")
-        file.write(f"Nama Pengguna: {nama_user}\n")  
-        file.write(f"Nomor Antrian: {nomor_antrian}\n") 
+        file.write(f"Waktu Transaksi      : {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file.write("=======================================================\n")
+        file.write("                    DETAIL PEMBELIAN                  \n")
+        file.write("=======================================================\n")
+        file.write(f"Nama Pelanggan: {nama_user}\n")  
+        file.write(f"Nomor Antrian : {nomor_antrian}\n") 
         file.write("MAKANAN:\n")
         for item in pesan_makan:
-            file.write(f"- {item[0]} x{item[1]} = Rp. {item[2]}\n")
+            file.write(f"- {item[0]:<25} {item[1]:<10} = Rp. {item[2]:<20}\n")
         file.write("\nMINUMAN:\n")
         for item in pesan_minum:
-            file.write(f"- {item[0]} x{item[1]} = Rp. {item[2]}\n")
-        file.write("\n===================================================\n")
-        file.write(f"Total Sebelum Diskon : Rp. {total + diskon}\n")
-        file.write(f"Diskon               : Rp. {diskon}\n")
-        file.write(f"Total Akhir          : Rp. {total}\n")
-        file.write(f"Waktu Transaksi      : {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        file.write("===================================================\n")
+            file.write(f"- {item[0]:<25} {item[1]:<10} = Rp. {item[2]:<20}\n")
+        file.write("\n=======================================================\n")
+        file.write(f"Subtotal              : Rp. {round(total + diskon)}\n")
+        file.write(f"Diskon                : Rp. {round(diskon)}\n")
+        file.write(f"PPN 12%               : Rp. {round((total + diskon) * 0.12)}\n")
+        file.write(f"Total Akhir           : Rp. {round((total + diskon) * 1.12)}\n")
+        file.write("=======================================================\n")
         file.write("\n")
         file.write("\n")
         file.write("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-
-
-
 
 def main():
     global total_makan, total_minum, pesan_makan, pesan_minum
@@ -219,50 +214,53 @@ def main():
         jumlah_semua = total_makan + total_minum
         jumlah_semua = promo(jumlah_semua)
 
-        print("-------------------------------------------------------")
-        print("                Daftar Pembelian                       ")
-        print("-------------------------------------------------------")
-        print(f"Nama Pengguna: {nama_user}")  
+        print("--------------------------------------------------------")
+        print("                    Daftar  Pembelian                   ")
+        print("--------------------------------------------------------")
+        print(f"Nama Pelanggan: {nama_user}")  
         print(f"Nomor Antrian: {nomor_antrian}") 
-        for item in pesan_makan:
-            print(f" Makanan : {item[0]}                               ")
-            print(f" Porsi   : {item[1]}                                 ")
-        print("-------------------------------------------------------")
-        for item in pesan_minum:
-            print(f" Minuman : {item[0]}                               ")
-            print(f" Gelas   : {item[1]}                                 ")
-        print("-------------------------------------------------------")
         print(f"Tanggal  : {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print("-------------------------------------------------------")
-        print(f" Total yang harus dibayar : Rp. {jumlah_semua}             ")
-        print("-------------------------------------------------------")
-        print(f"Total Sebelum Diskon : Rp. {total_makan + total_minum}")
-        
+        print("--------------------------------------------------------")
+        print("MAKANAN:")
+        for item in pesan_makan:
+            print(f"- {item[0]:<25} {item[1]:<10} = Rp. {item[2]:<20}\n")
+        print("MINUMAN:")
+        for item in pesan_minum:
+            print(f"- {item[0]:<25} {item[1]:<10} = Rp. {item[2]:<20}\n")
+        print("--------------------------------------------------------")
+        print(f" Subtotal             : Rp. {jumlah_semua}         ")
+        print("--------------------------------------------------------")
+        print(f"Total Sebelum Diskon  : Rp. {total_makan + total_minum}")
         diskon_total = total_makan + total_minum - jumlah_semua if jumlah_semua < (total_makan + total_minum) else 0
-
-        print(f"Diskon               : Rp. {diskon_total}")
-        print(f"Total Akhir          : Rp. {jumlah_semua}")
-        print("-------------------------------------------------------")
-
+        diskon = round(diskon_total)
+        ppn = round(jumlah_semua * 0.12) #Makan tuh pajak >@<
+        total_akhir = round(jumlah_semua * 1.12)
+        print(f"Diskon                : Rp. {diskon}")
+        print(f"PPN 12%               : Rp. {ppn}")
+        print(f"Total Akhir           : Rp. {total_akhir}")
+        print("--------------------------------------------------------")
 
         simpan_ke_file('daftar_pembelian.txt', nama_user, nomor_antrian,pesan_makan, pesan_minum, jumlah_semua, diskon_total)
         
-
         while True:
-            try:
-                uang_bayar = int(input("Masukan uang anda: Rp. "))
-                if uang_bayar < jumlah_semua:
-                    kekurangan = jumlah_semua - uang_bayar
-                    print(f"Maaf, uang Anda kurang Rp. {kekurangan}")
-                    print("Silahkan bayar kembali sejumlah yang kurang")
-                else:
-                    kembalian = uang_bayar - jumlah_semua
-                    print(f"Terima kasih. Kembalian Anda: Rp. {kembalian}")
-                    break
+            if total_akhir == 0:
+                print("Anda tidak memesan apapun.")
+                break
+            else:
+                try:
+                    uang_bayar = int(input("Masukan uang anda: Rp. "))
+                    if uang_bayar < total_akhir:
+                        kekurangan = total_akhir - uang_bayar
+                        print(f"Maaf, uang Anda kurang Rp. {kekurangan}")
+                        print("Silahkan bayar kembali sejumlah yang kurang")
+                    else:
+                        kembalian = uang_bayar - total_akhir
+                        print(f"Terima kasih. Kembalian Anda: Rp. {kembalian}")
+                        break
             
-            except ValueError:
-                print("Input tidak valid. Silakan masukkan angka yang benar.")
-                clear_screen()
+                except ValueError:
+                    print("Input tidak valid. Silakan masukkan angka yang benar.")
+                    clear_screen()
 
         while True:
             pilihan = input("Apakah Anda ingin memesan ulang? (ya/tidak): ").lower()
