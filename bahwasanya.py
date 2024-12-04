@@ -8,6 +8,11 @@ def clear_screen():
 def generate_invoice():
     return f"INV/{datetime.datetime.now().strftime('%Y%m%d')}/{random.randint(1000,9999)}"
 
+print("Halo! Selamat datang di layanan kami!")
+nama_user = input("Pesanan atas nama? ")
+nomor_antrian = random.randint(1, 100)
+print(f"Terima kasih, {nama_user}! Nomor antrian Anda adalah {nomor_antrian}.")
+
 def makanan():
     global total_makan, pesan_makan, jumlah_porsi
     total_makan = 0
@@ -41,10 +46,10 @@ def makanan():
                 break
             
             if menu_makanan not in range (1, 16):
-                print("Pilihan tidak tersedia. Silakan pilih menu yang benar.")
+                print("Pilihan tidak tersedia. Silakan pilih menu yang tersedia.")
                 continue
 
-            jumlah_porsi = int(input("Masukan Berapa porsi: "))
+            jumlah_porsi = int(input("Masukan jumlah porsi: "))
             if jumlah_porsi < 1:
                 print("Jumlah pesanan harus lebih dari 0.")
                 continue
@@ -109,10 +114,10 @@ def minuman():
                 break
             
             if menu_minuman not in range (1, 16):
-                print("Maaf menu tidak tersedia. Silakan pilih menu yang benar.")
+                print("Maaf menu tidak tersedia. Silakan pilih menu yang tersedia.")
                 continue
 
-            jumlah_gelas = int(input("Masukan Berapa gelas: "))
+            jumlah_gelas = int(input("Masukan jumlah gelas: "))
             if jumlah_gelas < 1:
                 print("Jumlah pesanan harus lebih dari 0.")
                 continue
@@ -202,9 +207,6 @@ def main():
     pesan_makan = []
     pesan_minum = []
 
-    nama_user = input("Masukkan nama Anda: ")
-    nomor_antrian = random.randint(1, 100)
-
     while True:
         makanan()
         clear_screen()
@@ -218,8 +220,8 @@ def main():
         print("                    Daftar  Pembelian                   ")
         print("--------------------------------------------------------")
         print(f"Nama Pelanggan: {nama_user}")  
-        print(f"Nomor Antrian: {nomor_antrian}") 
-        print(f"Tanggal  : {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"Nomor Antrian : {nomor_antrian}") 
+        print(f"Tanggal       : {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print("--------------------------------------------------------")
         print("MAKANAN:")
         for item in pesan_makan:
@@ -252,7 +254,7 @@ def main():
                     if uang_bayar < total_akhir:
                         kekurangan = total_akhir - uang_bayar
                         print(f"Maaf, uang Anda kurang Rp. {kekurangan}")
-                        print("Silahkan bayar kembali sejumlah yang kurang")
+                        print("Silahkan masukan ulang uang anda.")
                     else:
                         kembalian = uang_bayar - total_akhir
                         print(f"Terima kasih. Kembalian Anda: Rp. {kembalian}")
@@ -260,7 +262,6 @@ def main():
             
                 except ValueError:
                     print("Input tidak valid. Silakan masukkan angka yang benar.")
-                    clear_screen()
 
         while True:
             pilihan = input("Apakah Anda ingin memesan ulang? (ya/tidak): ").lower()
@@ -269,7 +270,6 @@ def main():
                 total_minum = 0
                 pesan_makan = []
                 pesan_minum = []
-                print("\n--- Pemesanan Baru ---")
                 clear_screen()
                 break 
             elif pilihan == 'tidak':
@@ -277,6 +277,5 @@ def main():
                 return 
             else:
                 print("Pilihan tidak valid. Silakan jawab 'ya' atau 'tidak'.")
-                clear_screen()
                 
 main()
