@@ -3,15 +3,23 @@ import datetime
 import random
 
 def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls')
 
 def generate_invoice():
     return f"INV/{datetime.datetime.now().strftime('%Y%m%d')}/{random.randint(1000,9999)}"
 
-print("Halo! Selamat datang di layanan kami!")
+clear_screen()
+
+print("|=======================================|")
+print("| Halo! Selamat datang di layanan kami! |")
+print("|=======================================|")
+print()
 nama_user = input("Pesanan atas nama? ")
 nomor_antrian = random.randint(1, 100)
-print(f"Terima kasih, {nama_user}! Nomor antrian Anda adalah {nomor_antrian}.")
+print()
+print("========================================================")
+print(f" Terima kasih, {nama_user}! Nomor antrian Anda adalah {nomor_antrian}.")
+print("========================================================")
 
 def makanan():
     global total_makan, pesan_makan, jumlah_porsi
@@ -169,13 +177,11 @@ def promo(total):
     
     return total
 
-def simpan_ke_file(nama_file, nama_user, nomor_antrian, pesan_makan, pesan_minum, total, diskon=0):
+def simpan_ke_file(nama_file, nama_user, nomor_antrian, pesan_makan, pesan_minum, subtotal, diskon, ppn, total_akhir):
     with open(nama_file, 'a') as file:
-        file.write("\n")
         file.write("\n")
         file.write("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n")
         invoice_number = generate_invoice()
-        file.write("\n")
         file.write("\n=======================================================\n")
         file.write(f"Invoice: {invoice_number}\n")
         file.write(f"Waktu Transaksi      : {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -191,14 +197,14 @@ def simpan_ke_file(nama_file, nama_user, nomor_antrian, pesan_makan, pesan_minum
         for item in pesan_minum:
             file.write(f"- {item[0]:<25} {item[1]:<10} = Rp. {item[2]:<20}\n")
         file.write("\n=======================================================\n")
-        file.write(f"Subtotal              : Rp. {round(total + diskon)}\n")
-        file.write(f"Diskon                : Rp. {round(diskon)}\n")
-        file.write(f"PPN 12%               : Rp. {round((total + diskon) * 0.12)}\n")
-        file.write(f"Total Akhir           : Rp. {round((total + diskon) * 1.12)}\n")
+        file.write(f"Subtotal              : Rp. {subtotal}\n")
+        file.write(f"Diskon                : Rp. {diskon}\n")
+        file.write(f"PPN 10%               : Rp. {ppn}\n")
+        file.write(f"Total Akhir           : Rp. {total_akhir}\n")
         file.write("=======================================================\n")
         file.write("\n")
-        file.write("\n")
         file.write("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n")
+
 
 def main():
     global total_makan, total_minum, pesan_makan, pesan_minum
@@ -213,8 +219,11 @@ def main():
         minuman()
         clear_screen()
 
-        jumlah_semua = total_makan + total_minum
-        jumlah_semua = promo(jumlah_semua)
+        subtotal = total_makan + total_minum
+        subtotal = promo(subtotal)
+        diskon = total_makan + total_minum - subtotal if subtotal < (total_makan + total_minum) else 0
+        ppn = round(subtotal * 0.1)
+        total_akhir = round(subtotal + ppn)
 
         print("--------------------------------------------------------")
         print("                    Daftar  Pembelian                   ")
@@ -230,19 +239,14 @@ def main():
         for item in pesan_minum:
             print(f"- {item[0]:<25} {item[1]:<10} = Rp. {item[2]:<20}\n")
         print("--------------------------------------------------------")
-        print(f" Subtotal             : Rp. {jumlah_semua}         ")
-        print("--------------------------------------------------------")
-        print(f"Total Sebelum Diskon  : Rp. {total_makan + total_minum}")
-        diskon_total = total_makan + total_minum - jumlah_semua if jumlah_semua < (total_makan + total_minum) else 0
-        diskon = round(diskon_total)
-        ppn = round(jumlah_semua * 0.12) #Makan tuh pajak >@<
-        total_akhir = round(jumlah_semua * 1.12)
-        print(f"Diskon                : Rp. {diskon}")
-        print(f"PPN 12%               : Rp. {ppn}")
-        print(f"Total Akhir           : Rp. {total_akhir}")
+        print(f" Subtotal             : Rp. {subtotal}")
+        print(f" Diskon               : Rp. {diskon}")
+        print(f" PPN 10%              : Rp. {ppn}")
+        print(f" Total Akhir          : Rp. {total_akhir}")
         print("--------------------------------------------------------")
 
-        simpan_ke_file('daftar_pembelian.txt', nama_user, nomor_antrian,pesan_makan, pesan_minum, jumlah_semua, diskon_total)
+        simpan_ke_file('daftar_pembelian.txt', nama_user, nomor_antrian, pesan_makan, pesan_minum, subtotal, diskon, ppn, total_akhir)
+
         
         while True:
             if total_akhir == 0:
